@@ -55,5 +55,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             docker pull hannessolo/devnet:master
-            docker run --rm hannessolo/devnet
+            docker run --rm hannessolo/devnet:master
       
