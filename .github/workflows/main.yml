@@ -55,5 +55,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             docker pull hannessolo/devnet:master
-            docker run --env BOT=${{secrets.BOT}} --env USER=${{secrets.USER}} --env PASSW=${{secrets.PASSW}}  --rm hannessolo/devnet:master
+            docker run --env BOT=${{secrets.BOT}} --env USER=${{secrets.USER}} --env PASSW=${{secrets.PASSW}}  --rm -d hannessolo/devnet:master
       
