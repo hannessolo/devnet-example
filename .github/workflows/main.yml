@@ -29,7 +29,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.vars.outputs.sha_short }}
+          tags: version:1
         
   build:
     runs-on: ubuntu-latest
