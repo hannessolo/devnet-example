@@ -3,13 +3,11 @@ import os
 
 
 def find_interface(name, interfaces):
-    print(interfaces)
     ifaces = list(filter(lambda x: x['name'] == name, interfaces))
-    print(ifaces)
     return ifaces[0] if len(ifaces) > 0 else None
 
 
-def check_status():
+def check_status(interface):
     device = {
         "ip": "sandbox-iosxe-latest-1.cisco.com",
         "username": os.environ["USER"],
@@ -28,15 +26,34 @@ def check_status():
 
     res = requests.get(url, headers=headers, auth=(device['username'],device['password']))
 
-    return find_interface("GigabitEthernet3", res.json()["ietf-interfaces:interfaces"]["interface"])
+    if res.status_code != 200:
+        return None
+
+    return find_interface(interface, res.json()["ietf-interfaces:interfaces"]["interface"])
 
 
 def send_webex_msg(message):
     print(message)
 
+    url = f"https://webexapis.com/v1/messages"
+
+    body = {
+        "markdown": message,
+        "toPersonEmail": "hhertach@cisco.com"
+    }
+
+    headers = {
+        "Authorization": f"Bearer {os.environ['BOT']}"
+    }
+
+    res = requests.post(url, headers=headers, json=body)
+
+    if res.status_code != 200:
+        print(res.status_code)
+
 
 def main():
-    result = check_status()
+    result = check_status("GigabitEthernet0")
 
     if result == None:
         send_webex_msg("Target interface does not exist!")
