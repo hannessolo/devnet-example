@@ -58,5 +58,7 @@ jobs:
             docker stop devnet || true
             docker rm devnet || true
             docker pull hannessolo/devnet:master
-            docker run --name devnet --env BOT=${{secrets.BOT}} --env USER=${{secrets.USER}} --env PASSW=${{secrets.PASSW}}  --rm -d hannessolo/devnet:master
+            docker run --name devnet --env BOT=${{secrets.BOT}} --env USER=${{secrets.USER}} --env PASSW=${{secrets.PASSW}} \
+            --env INTERF=${{secrets.INT}} --env NOTIFY_EMAIL=${{secrets.NOTIFY_EMAIL}} --env DEVICE_IP=${{secrets.DEVICE_IP}} \
+            --rm -d hannessolo/devnet:master
       

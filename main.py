@@ -2,7 +2,6 @@ import requests
 import os
 import time
 
-
 # Variable tracks the previous status, so we only send the message once if it hasn't changed
 previousStatus = None
 
@@ -15,7 +14,7 @@ def find_interface(name, interfaces):
 # Finds the status of the specified interface on the device. Returns None if the int doesn't exist
 def check_status(interface):
     device = {
-        "ip": "sandbox-iosxe-latest-1.cisco.com",
+        "ip": os.environ["DEVICE_IP"],
         "username": os.environ["USER"],
         "password": os.environ["PASSW"],
         "port": "443"
@@ -46,7 +45,7 @@ def send_webex_msg(message):
 
     body = {
         "markdown": message,
-        "toPersonEmail": "hhertach@cisco.com"
+        "toPersonEmail": os.environ["NOTIFY_EMAIL"]
     }
 
     headers = {
@@ -61,7 +60,7 @@ def send_webex_msg(message):
 
 def main():
     global previousStatus
-    result = check_status("Loopback1234")
+    result = check_status(os.environ["INTERF"])
 
     if result == None:
         if previousStatus != "deleted":
