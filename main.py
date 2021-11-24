@@ -42,7 +42,7 @@ def send_webex_msg(message):
     url = f"https://webexapis.com/v1/messages"
 
     body = {
-        "markdown": message,
+        "markdown": f"An error occured: message",
         "toPersonEmail": "hhertach@cisco.com"
     }
 
