@@ -2,6 +2,8 @@ import requests
 import os
 import time
 
+
+# Variable tracks the previous status, so we only send the message once if it hasn't changed
 previousStatus = None
 
 # This finds the first interface by name out of a list of interfaces from the YANG model
@@ -43,7 +45,7 @@ def send_webex_msg(message):
     url = f"https://webexapis.com/v1/messages"
 
     body = {
-        "markdown": f"An error occured: {message}",
+        "markdown": message,
         "toPersonEmail": "hhertach@cisco.com"
     }
 
@@ -61,12 +63,14 @@ def main():
     global previousStatus
     result = check_status("Loopback1234")
 
-    if result == None and previousStatus != "deleted":
+    if result == None:
+        if previousStatus != "deleted":
+            send_webex_msg("Target interface does not exist!")
         previousStatus = "deleted"
-        send_webex_msg("Target interface does not exist!")
-    elif not result["enabled"] and previousStatus != "shutdown":
+    elif not result["enabled"]:
+        if previousStatus != "shutdown":
+            send_webex_msg("Target interface is shutdown")
         previousStatus = "shutdown"
-        send_webex_msg("Target interface is shutdown")
     else:
         previousStatus = "running"
 
