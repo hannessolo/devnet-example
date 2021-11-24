@@ -64,11 +64,11 @@ def main():
 
     if result == None:
         if previousStatus != "deleted":
-            send_webex_msg("Target interface does not exist!")
+            send_webex_msg(f"Target interface {os.environ['INTERF']} does not exist!")
         previousStatus = "deleted"
     elif not result["enabled"]:
         if previousStatus != "shutdown":
-            send_webex_msg("Target interface is shutdown")
+            send_webex_msg(f"Target interface {os.environ['INTERF']} is shutdown")
         previousStatus = "shutdown"
     else:
         previousStatus = "running"
