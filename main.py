@@ -2,6 +2,7 @@ import requests
 import os
 import time
 
+previousStatus = None
 
 # This finds the first interface by name out of a list of interfaces from the YANG model
 def find_interface(name, interfaces):
@@ -57,14 +58,17 @@ def send_webex_msg(message):
 
 
 def main():
-    print("Started request...")
+    global previousStatus
     result = check_status("Loopback1234")
 
-    if result == None:
+    if result == None and previousStatus != "deleted":
+        previousStatus = "deleted"
         send_webex_msg("Target interface does not exist!")
-    elif not result["enabled"]:
+    elif not result["enabled"] and previousStatus != "shutdown":
+        previousStatus = "shutdown"
         send_webex_msg("Target interface is shutdown")
-    print("Request executed.")
+    else:
+        previousStatus = "running"
 
 if __name__ == "__main__":
     while True:
