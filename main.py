@@ -11,7 +11,7 @@ def find_interface(name, interfaces):
     return ifaces[0] if len(ifaces) > 0 else None
 
 
-# Finds the status of the specified interface on the device. Returns None if the int doesn't exist
+# Finds the status of the specified interface on the device. Returns None if the interf doesn't exist
 def check_status(interface):
     device = {
         "ip": os.environ["DEVICE_IP"],
