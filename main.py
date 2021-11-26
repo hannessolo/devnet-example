@@ -37,7 +37,7 @@ def check_status(interface):
     return find_interface(interface, res.json()["ietf-interfaces:interfaces"]["interface"])
 
 
-# Notifies the user of the outcome by sending a webex message
+# Notifies the user of the outcome by sending a webex message!
 def send_webex_msg(message):
     print(message)
 
